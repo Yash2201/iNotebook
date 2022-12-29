@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
@@ -21,8 +21,8 @@ const Navbar = () => {
             </li>
           </ul>
           <form className="d-flex">
-            <Link to="/login" className="btn btn-primary mx-2">Login</Link>
-            <Link to="/signup" className="btn btn-primary mx-2">Signup</Link>
+            <Link to="/login" className="btn btn-primary mx-1">Login</Link>
+            <Link to="/signup" className="btn btn-primary mx-1">Signup</Link>
           </form>
         </div>
       </div>
