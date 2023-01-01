@@ -1,39 +1,52 @@
 import React,{useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-function Signup() {
+function Signup(props) {
 
   let history = useNavigate();
   const [userDetails, setUserDetails] = useState({"name":"", "email":"","password":"","cpassword":""});
+  const {showAlert} = props;
 
-  const  handleSubmit = async (e) => {    
+  const handleSubmit = async (e) => {    
     e.preventDefault();
-    const {name,email,password} = userDetails;
-    
-    const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
-      method: 'POST', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({name,email,password}) 
-    });
-    const json = await response.json();
-    console.log(json);
-    if(json.success)
+    const {name,email,password,cpassword} = userDetails;
+
+    if(password === cpassword)
     {
-      // Saving the auth token and Redirecting User To Home Page... 
-      localStorage.setItem('token',json.authtoken);
-      history('/');
+      const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name,email,password}) 
+      });
+      const json = await response.json();
+      if(json.success)
+      {
+        // Saving the auth token and Redirecting User To Home Page... 
+        localStorage.setItem('token',json.authtoken);
+        history('/');
+        showAlert("Signup Successfully !","success");
+      }
+      else
+      {
+         showAlert(json.error,"danger");
+      }
     }
+    else
+    {
+        showAlert("Passowrd And Confirm Passwords are Mismatch","danger");
+    }
+
   }
 
   const handleChange = (e) => {
-    console.log(e);
     setUserDetails({...userDetails,[e.target.name]: e.target.value});
   }
 
   return (
-    <div className="container my-4">
+    <div className="container my-4 mt-2">
+      <h2>Create an account to use iNotebook</h2>      
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">Name</label>

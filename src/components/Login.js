@@ -1,10 +1,11 @@
 import React,{useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-function Login() {
+function Login(props) {
 
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const {showAlert} = props;
   let history = useNavigate();
 
   const  handleSubmit = async (e) => {
@@ -24,6 +25,11 @@ function Login() {
       // Saving the auth token and Redirecting User To Home Page... 
       localStorage.setItem('token',json.authtoken);
       history('/');
+      showAlert("Logged In Successfully","success");
+    }
+    else
+    {
+      showAlert(json.error,"danger");
     }
   }
 
@@ -39,7 +45,8 @@ function Login() {
   }
 
   return (
-    <div className="container my-4">
+    <div className="container my-4 mt-3">
+      <h2>Login to countinue to iNotebook</h2>      
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">Email address</label>
