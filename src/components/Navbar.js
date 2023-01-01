@@ -1,8 +1,16 @@
-import React from 'react'
-import { Link, useLocation } from "react-router-dom";
+import React,{useRef} from 'react'
+import { Link, useLocation} from "react-router-dom";
 
 const Navbar = () => {
   let location = useLocation();
+  const authToken = localStorage.getItem('token');
+  const RefLoginClick = useRef();
+
+  const handleLogoutUser = () =>{
+    // Clearing the localstorage....
+    localStorage.clear();
+    RefLoginClick.current.click();
+  }
   
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,8 +29,9 @@ const Navbar = () => {
             </li>
           </ul>
           <form className="d-flex">
-            <Link to="/login" className="btn btn-primary mx-1">Login</Link>
-            <Link to="/signup" className="btn btn-primary mx-1">Signup</Link>
+            <Link to="/login" ref={RefLoginClick} className={`btn btn-primary mx-1  ${authToken ? 'd-none' : ''}`}>Login</Link>
+            <Link to="/signup" className={`btn btn-primary mx-1  ${authToken ? 'd-none' : ''}`}>Signup</Link>
+            <button onClick={handleLogoutUser} className={`btn btn-primary mx-1  ${authToken ? '' : 'd-none'}`}>Logout</button>
           </form>
         </div>
       </div>

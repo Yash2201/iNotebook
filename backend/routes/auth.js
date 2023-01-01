@@ -10,7 +10,7 @@ const { body, validationResult } = require('express-validator'); // For Validati
 const JWT_SECRET = 'YashisGoodB$oy';
 
 // Error response
-const errorResponseCatch = {"success":"false","error":"Internal server Error"}
+const errorResponseCatch = {"success":false,"error":"Internal server Error"}
 
 // Route 1 : Create a User using: POST "/api/auth/createuser". No Login Required
 route.post('/createuser',
@@ -31,7 +31,7 @@ route.post('/createuser',
         let user = await User.findOne({email: req.body.email});
         if(user)
         {
-            return res.status(400).json({"success":"false","error": "Sorry a user with this email already exists"});
+            return res.status(400).json({"success":false,"error": "Sorry a user with this email already exists"});
         }
 
         // Encrypting The Password

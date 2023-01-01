@@ -1,18 +1,21 @@
 import React, { useContext , useState, useRef } from 'react'
 import noteContext from '../context/Notes/noteContext';
 
-function AddNote() {
+function AddNote(props) {
     const context = useContext(noteContext);
     const {addNote} = context;
     const ref = useRef();
 
     const [note, setNote] = useState({title: "", description:"",tag:""});
 
+    const {showAlert} = props;
+
     const handleClick  = (e) => {
         e.preventDefault();
         addNote(note.title,note.description,note.tag);
         ref.current.reset();
         setNote({title: "", description:"",tag:""});
+        showAlert("Note Added Successfully","success");
     }
 
     const handleChange = (e) => {
